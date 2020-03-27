@@ -1,0 +1,4 @@
+node_modules
+config/*
+!config/env.template.json
+emby-win32-x64
