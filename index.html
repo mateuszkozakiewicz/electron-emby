@@ -46,6 +46,20 @@
         element.style.display = "none";
       });
     });
+    ipcRenderer.on("title-bar-visible", function(event, isVisible) {
+      Array.from(
+        document.getElementsByClassName("container-after-titlebar")
+      ).forEach(function(element) {
+        if (isVisible) element.style.top = "30px";
+        else element.style.top = "0px";
+      });
+      Array.from(document.getElementsByClassName("titlebar windows")).forEach(
+        function(element) {
+          if (isVisible) element.style.height = "30px";
+          else element.style.height = "0px";
+        }
+      );
+    });
 
     const titlebar = new customTitlebar.Titlebar({
       backgroundColor: customTitlebar.Color.fromHex("#141414")

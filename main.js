@@ -1,5 +1,8 @@
 const { app, BrowserWindow, Menu } = require("electron");
+const Store = require("electron-store");
 const config = require("./config/env.json");
+
+const store = new Store();
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -11,20 +14,35 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       webviewTag: true
-    }
+    },
+    ...store.get("winBounds")
   });
-  mainWindow.loadFile("index.html");
-  mainWindow.maximize();
 
+  if (store.get("maximized")) mainWindow.maximize();
+  if (store.get("was_fullscreen")) mainWindow.setFullScreen(true);
   if (config.debug) mainWindow.webContents.openDevTools();
 
+  mainWindow.loadFile("index.html");
   mainWindow.webContents.on("dom-ready", () => {
     mainWindow.webContents.send("emby-url", config.embyUrl);
     if (!config.debug) mainWindow.webContents.send("hide-menu");
   });
+
+  mainWindow.on("close", () => {
+    store.set("winBounds", mainWindow.getBounds());
+    store.set("maximized", mainWindow.isMaximized());
+    store.set("was_fullscreen", mainWindow.isFullScreen());
+  });
+
+  mainWindow.on("enter-full-screen", () => {
+    mainWindow.webContents.send("title-bar-visible", false);
+  });
+
+  mainWindow.on("leave-full-screen", () => {
+    mainWindow.webContents.send("title-bar-visible", true);
+  });
 }
 
-// if (!config.debug) Menu.setApplicationMenu(null);
 app.whenReady().then(createWindow);
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
