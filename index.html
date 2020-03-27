@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Emby</title>
+    <style>
+      webview {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        outline: none !important;
+      }
+      .titlebar {
+        font-family: "Helvetica";
+      }
+      .window-title {
+        margin-left: 1em !important;
+      }
+    </style>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline';"
+    />
+  </head>
+  <body>
+    <webview
+      id="emby-instance"
+      useragent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.158 Safari/537.36"
+    ></webview>
+  </body>
+  <script>
+    const customTitlebar = require("custom-electron-titlebar");
+    const { ipcRenderer } = require("electron");
+
+    ipcRenderer.on("emby-url", function(event, embyUrl) {
+      document.getElementById("emby-instance").src = embyUrl;
+    });
+    ipcRenderer.on("hide-menu", function(event) {
+      Array.from(document.getElementsByClassName("menubar")).forEach(function(
+        element
+      ) {
+        element.style.display = "none";
+      });
+    });
+
+    const titlebar = new customTitlebar.Titlebar({
+      backgroundColor: customTitlebar.Color.fromHex("#141414")
+    });
+  </script>
+</html>

@@ -1,0 +1,29 @@
+{
+  "name": "electron-emby",
+  "productName": "emby",
+  "version": "0.0.1",
+  "description": "ElectronJS client for Emby",
+  "main": "main.js",
+  "dependencies": {
+    "custom-electron-titlebar": "^3.2.2-hotfix62"
+  },
+  "devDependencies": {
+    "electron": "^8.2.0",
+    "electron-packager": "^14.2.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "copy config\\env.local.json config\\env.json && electron .",
+    "build": "copy config\\env.prod.json config\\env.json && electron-packager . --icon=./assets/icon.ico --overwrite --asar"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mateuszkozakiewicz/electron-emby.git"
+  },
+  "author": "Mateusz Kozakiewicz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mateuszkozakiewicz/electron-emby/issues"
+  },
+  "homepage": "https://github.com/mateuszkozakiewicz/electron-emby#readme"
+}
