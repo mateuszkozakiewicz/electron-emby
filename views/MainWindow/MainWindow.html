@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      webview {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        outline: none !important;
+        display: flex;
+      }
+      #settings {
+        display: none;
+      }
+      .window-title {
+        margin-left: 1em !important;
+      }
+      * {
+        user-select: none;
+        -khtml-user-select: none;
+        -o-user-select: none;
+        -moz-user-select: -moz-none;
+        -webkit-user-select: none;
+      }
+    </style>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline';"
+    />
+  </head>
+  <body>
+    <webview
+      id="emby-instance"
+      useragent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.158 Safari/537.36"
+    ></webview>
+    <div id="settings" class="container">
+      <style scoped>
+        @import "../../css/bootstrap-dark.min.css";
+      </style>
+      <br /><br />
+      <h1>Settings</h1>
+      <br /><br />
+      <label>Emby URL:</label><br />
+      <input
+        id="settings-input-emby-url"
+        class="form-control"
+        type="text"
+        placeholder="https://example.emby"
+      /><br />
+      <button id="settings-save" type="button" class="btn btn-dark">
+        Save
+      </button>
+      <button id="settings-cancel" type="button" class="btn btn-dark">
+        Cancel
+      </button>
+    </div>
+  </body>
+  <script src="MainWindow.js"></script>
+</html>
