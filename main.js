@@ -1,7 +1,6 @@
 require("electron-reload")(__dirname);
 const { app, BrowserWindow, Menu, MenuItem, ipcMain } = require("electron");
 const Store = require("electron-store");
-const config = require("./config/env.json");
 
 const store = new Store();
 
@@ -21,7 +20,7 @@ function createWindow() {
 
   if (store.get("isMaximized")) mainWindow.maximize();
   if (store.get("isFullscreen")) mainWindow.setFullScreen(true);
-  if (config.debug) mainWindow.webContents.openDevTools();
+  if (process.env.DEBUG === "true") mainWindow.webContents.openDevTools();
 
   mainWindow.loadFile("./views/MainWindow/MainWindow.html");
   mainWindow.webContents.on("dom-ready", () => {
