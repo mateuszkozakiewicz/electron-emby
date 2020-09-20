@@ -16,32 +16,32 @@ function openSettings() {
     store.get("settings", {}).embyUrl || "";
 }
 
-ipcRenderer.on("emby-open", function(event) {
+ipcRenderer.on("emby-open", function (event) {
   openEmby();
 });
 
-ipcRenderer.on("settings-open", function(event) {
+ipcRenderer.on("settings-open", function (event) {
   openSettings();
 });
 
-ipcRenderer.on("emby-url", function(event, embyUrl) {
+ipcRenderer.on("emby-url", function (event, embyUrl) {
   document.getElementById("emby-instance").src = embyUrl;
 });
 
-ipcRenderer.on("title-bar-visible", function(event, isVisible) {
+ipcRenderer.on("title-bar-visible", function (event, isVisible) {
   Array.from(
     document.getElementsByClassName("container-after-titlebar")
-  ).forEach(function(element) {
+  ).forEach(function (element) {
     if (isVisible) element.style.top = "30px";
     else element.style.top = "0px";
   });
   Array.from(document.getElementsByClassName("titlebar windows")).forEach(
-    function(element) {
+    function (element) {
       if (isVisible) element.style.height = "30px";
       else element.style.height = "0px";
     }
   );
-  Array.from(document.getElementsByClassName("menubar")).forEach(function(
+  Array.from(document.getElementsByClassName("menubar")).forEach(function (
     element
   ) {
     if (isVisible) element.style.display = "flex";
@@ -50,16 +50,16 @@ ipcRenderer.on("title-bar-visible", function(event, isVisible) {
 });
 
 const titlebar = new customTitlebar.Titlebar({
-  backgroundColor: customTitlebar.Color.fromHex("#141414")
+  backgroundColor: customTitlebar.Color.fromHex("#141414"),
 });
 
-document.getElementById("settings-save").onclick = function() {
+document.getElementById("settings-save").onclick = function () {
   ipcRenderer.send("settings-save", {
-    embyUrl: document.getElementById("settings-input-emby-url").value
+    embyUrl: document.getElementById("settings-input-emby-url").value,
   });
   openEmby();
 };
 
-document.getElementById("settings-cancel").onclick = function() {
+document.getElementById("settings-cancel").onclick = function () {
   openEmby();
 };

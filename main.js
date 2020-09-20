@@ -1,12 +1,5 @@
 require("electron-reload")(__dirname);
-const {
-  app,
-  BrowserWindow,
-  Menu,
-  MenuItem,
-  ipcMain,
-  globalShortcut
-} = require("electron");
+const { app, BrowserWindow, Menu, MenuItem, ipcMain } = require("electron");
 const Store = require("electron-store");
 const config = require("./config/env.json");
 
@@ -21,9 +14,9 @@ function createWindow() {
     frame: false,
     webPreferences: {
       nodeIntegration: true,
-      webviewTag: true
+      webviewTag: true,
     },
-    ...store.get("winBounds")
+    ...store.get("winBounds"),
   });
 
   if (store.get("isMaximized")) mainWindow.maximize();
@@ -54,7 +47,7 @@ function createWindow() {
     mainWindow.webContents.send("title-bar-visible", true);
   });
 
-  ipcMain.on("settings-save", function(event, settings) {
+  ipcMain.on("settings-save", function (event, settings) {
     store.set("settings", settings);
     if (settings.embyUrl) mainWindow.webContents.send("emby-url", settings);
     mainWindow.reload();
@@ -66,7 +59,7 @@ function createWindow() {
       label: "Emby",
       click() {
         mainWindow.webContents.send("emby-open");
-      }
+      },
     })
   );
   menu.append(
@@ -74,20 +67,28 @@ function createWindow() {
       label: "Settings",
       click() {
         mainWindow.webContents.send("settings-open");
-      }
+      },
+    })
+  );
+  menu.append(
+    new MenuItem({
+      label: "Fullscreen (Ctrl+W)",
+      accelerator: "CommandOrControl+W",
+      click() {
+        mainWindow.setFullScreen(!mainWindow.isFullScreen());
+      },
+    })
+  );
+  menu.append(
+    new MenuItem({
+      label: "Refresh (Ctrl+R)",
+      accelerator: "CommandOrControl+R",
+      click() {
+        mainWindow.setFullScreen(!mainWindow.isFullScreen());
+      },
     })
   );
   Menu.setApplicationMenu(menu);
-
-  globalShortcut.register("F5", function() {
-    mainWindow.reload();
-  });
-  globalShortcut.register("CommandOrControl+R", function() {
-    mainWindow.reload();
-  });
-  globalShortcut.register("F11", function() {
-    mainWindow.setFullScreen(!mainWindow.isFullScreen());
-  });
 }
 
 app.whenReady().then(createWindow);
