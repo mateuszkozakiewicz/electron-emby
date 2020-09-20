@@ -83,7 +83,7 @@ function createWindow() {
       label: "Refresh (Ctrl+R)",
       accelerator: "CommandOrControl+R",
       click() {
-        mainWindow.setFullScreen(!mainWindow.isFullScreen());
+        mainWindow.reload();
       },
     })
   );
