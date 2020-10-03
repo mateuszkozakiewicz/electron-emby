@@ -1,4 +1,6 @@
 node_modules
 config/*
 !config/env.template.json
-emby-win32-x64
+emby-win32-*
+emby-darwin-*
+.DS_Store

@@ -49,9 +49,11 @@ ipcRenderer.on("title-bar-visible", function (event, isVisible) {
   });
 });
 
-const titlebar = new customTitlebar.Titlebar({
-  backgroundColor: customTitlebar.Color.fromHex("#141414"),
-});
+if (process.platform !== "darwin") {
+  const titlebar = new customTitlebar.Titlebar({
+    backgroundColor: customTitlebar.Color.fromHex("#141414"),
+  });
+}
 
 document.getElementById("settings-save").onclick = function () {
   ipcRenderer.send("settings-save", {
