@@ -4,13 +4,17 @@ const Store = require("electron-store");
 
 const store = new Store();
 
+function isMac() {
+  return process.platform === "darwin";
+}
+
 function createWindow() {
   const mainWindow = new BrowserWindow({
     minWidth: 800,
     minHeight: 600,
     width: 1280,
     height: 720,
-    frame: false,
+    frame: isMac(),
     webPreferences: {
       nodeIntegration: true,
       webviewTag: true,
@@ -56,35 +60,49 @@ function createWindow() {
   menu.append(
     new MenuItem({
       label: "Emby",
-      click() {
-        mainWindow.webContents.send("emby-open");
-      },
-    })
-  );
-  menu.append(
-    new MenuItem({
-      label: "Settings",
-      click() {
-        mainWindow.webContents.send("settings-open");
-      },
-    })
-  );
-  menu.append(
-    new MenuItem({
-      label: "Fullscreen (Ctrl+W)",
-      accelerator: "CommandOrControl+W",
-      click() {
-        mainWindow.setFullScreen(!mainWindow.isFullScreen());
-      },
-    })
-  );
-  menu.append(
-    new MenuItem({
-      label: "Refresh (Ctrl+R)",
-      accelerator: "CommandOrControl+R",
-      click() {
-        mainWindow.reload();
-      },
+      submenu: [
+        {
+          label: "Emby",
+          accelerator: "CommandOrControl+E",
+          click() {
+            mainWindow.webContents.send("emby-open");
+          },
+        },
+        {
+          label: "Settings",
+          accelerator: "CommandOrControl+S",
+          click() {
+            mainWindow.webContents.send("settings-open");
+          },
+        },
+        {
+          type: "separator",
+        },
+        {
+          label: "Fullscreen",
+          accelerator: "CommandOrControl+W",
+          click() {
+            mainWindow.setFullScreen(!mainWindow.isFullScreen());
+          },
+        },
+        {
+          label: "Refresh",
+          accelerator: "CommandOrControl+R",
+          click() {
+            mainWindow.reload();
+          },
+        },
+        {
+          type: "separator",
+        },
+        {
+          label: "Quit",
+          accelerator: "CommandOrControl+Q",
+          click() {
+            app.quit();
+          },
+        },
+      ],
     })
   );
   Menu.setApplicationMenu(menu);

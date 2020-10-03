@@ -1,6 +1,6 @@
 {
   "name": "electron-emby",
-  "productName": "emby",
+  "productName": "Emby",
   "version": "0.0.1",
   "description": "ElectronJS client for Emby",
   "main": "main.js",

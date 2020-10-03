@@ -8,7 +8,7 @@ Install dependencies `npm i`
 
 Start the app `npm run start`
 
-## Building the app on Windows
+## Building the app on Windows and MacOS
 
 Install dependencies `npm i`
 
